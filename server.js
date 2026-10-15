@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const { GoogleGenerativeAI } = require("@google/generative-ai");
 require("dotenv").config();
 
 const app = express();
@@ -9,7 +8,8 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
 app.get("/", (req, res) => {
   res.json({ message: "BugShield API is running 🛡️" });
@@ -45,9 +45,23 @@ ${code}
 `;
 
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-    const result = await model.generateContent(prompt);
-    const text = result.response.text();
+    const response = await fetch(GEMINI_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { temperature: 0.2 }
+      })
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      console.error("Gemini API error:", errText);
+      return res.status(500).json({ error: "Failed to analyze code. Check your API key." });
+    }
+
+    const data = await response.json();
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
 
     // Strip markdown code fences if present
     const cleaned = text.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
@@ -64,8 +78,8 @@ ${code}
 
     return res.json(parsed);
   } catch (err) {
-    console.error("Gemini API error:", err.message);
-    return res.status(500).json({ error: "Failed to analyze code. Check your API key." });
+    console.error("Server error:", err.message);
+    return res.status(500).json({ error: "Server error: " + err.message });
   }
 });
 
