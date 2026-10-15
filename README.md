@@ -2,10 +2,18 @@
 
 > **Robust, Fault-Tolerant AI Debugging Engine for BugShield**
 
-This is the Express & Node.js backend powering [BugShield](https://bugshield-frontend.vercel.app). It integrates Google Gemini AI with multi-model automatic failover to analyze, diagnose, fix, and explain code bugs across multiple programming languages.
+This is the Express & Node.js backend powering [BugShield](https://bugshield-frontend.vercel.app/). It integrates Google Gemini AI with multi-model automatic failover to analyze, diagnose, fix, and explain code bugs across multiple programming languages.
 
-🌐 **Live Application**: [https://bugshield-frontend.vercel.app](https://bugshield-frontend.vercel.app)  
-🚀 **Live Backend API**: [https://bugshield-backend-y3tm.onrender.com](https://bugshield-backend-y3tm.onrender.com)  
+---
+
+### 🚀 Try It Live (No Installation Needed!)
+
+Anyone can test the live application directly in the browser:
+
+[![Test BugShield Live](https://img.shields.io/badge/▶_TEST_BUGSHIELD_LIVE-vercel.app-6366f1?style=for-the-badge&logo=vercel&logoColor=white)](https://bugshield-frontend.vercel.app/)
+
+👉 **Live Web App**: **[https://bugshield-frontend.vercel.app/](https://bugshield-frontend.vercel.app/)**  
+🚀 **Live Backend API**: **[https://bugshield-backend-y3tm.onrender.com](https://bugshield-backend-y3tm.onrender.com)**  
 🎨 **Frontend Repository**: [github.com/ruthikph2-jpg/bugshield-frontend](https://github.com/ruthikph2-jpg/bugshield-frontend)
 
 ---
