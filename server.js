@@ -11,10 +11,15 @@ app.use(cors());
 app.use(express.json({ limit: "2mb" }));
 
 // ─── MongoDB Connection ────────────────────────────────────────────────────────
-mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => console.log("✅ MongoDB connected"))
-  .catch((err) => console.error("❌ MongoDB error:", err.message));
+const mongoUri = (process.env.MONGODB_URI || "").trim().replace(/^["']|["']$/g, "");
+if (mongoUri) {
+  mongoose
+    .connect(mongoUri)
+    .then(() => console.log("✅ MongoDB connected"))
+    .catch((err) => console.error("❌ MongoDB error:", err.message));
+} else {
+  console.warn("⚠️ MONGODB_URI is not set in environment!");
+}
 
 // ─── Gemini Setup ─────────────────────────────────────────────────────────────
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
@@ -165,7 +170,8 @@ app.get("/api/history", async (req, res) => {
       .select("language bugDescription severity hasBug createdAt originalCode fixedCode");
     return res.json(history);
   } catch (err) {
-    return res.status(500).json({ error: "Failed to fetch history." });
+    console.error("History fetch error:", err.message);
+    return res.status(500).json({ error: "Failed to fetch history: " + err.message });
   }
 });
 
