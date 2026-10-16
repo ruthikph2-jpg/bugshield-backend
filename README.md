@@ -2,18 +2,16 @@
 
 > **Robust, Fault-Tolerant AI Debugging Engine for BugShield**
 
-This is the Express & Node.js backend powering [BugShield](https://bugshield-frontend.vercel.app/). It integrates Google Gemini AI with multi-model automatic failover to analyze, diagnose, fix, and explain code bugs across multiple programming languages.
+This is the Express & Node.js backend powering [BugShield](https://bugshield-ruthik.vercel.app/). It integrates Google Gemini AI with multi-model automatic failover to analyze, diagnose, fix, and explain code bugs across multiple programming languages.
 
 ---
 
-### 🚀 Try It Live (No Installation Needed!)
+### 🚀 Live Demo
 
-Anyone can test the live application directly in the browser:
+[![Live Demo](https://img.shields.io/badge/▶_LIVE_DEMO-bugshield--ruthik.vercel.app-6366f1?style=for-the-badge&logo=vercel&logoColor=white)](https://bugshield-ruthik.vercel.app/)
 
-[![Test BugShield Live](https://img.shields.io/badge/▶_TEST_BUGSHIELD_LIVE-vercel.app-6366f1?style=for-the-badge&logo=vercel&logoColor=white)](https://bugshield-frontend.vercel.app/)
-
-👉 **Live Web App**: **[https://bugshield-frontend.vercel.app/](https://bugshield-frontend.vercel.app/)**  
-🚀 **Live Backend API**: **[https://bugshield-backend-y3tm.onrender.com](https://bugshield-backend-y3tm.onrender.com)**  
+👉 **Live Web App**: **[https://bugshield-ruthik.vercel.app/](https://bugshield-ruthik.vercel.app/)**
+🚀 **Live Backend API**: **[https://bugshield-ruthik-api.onrender.com](https://bugshield-ruthik-api.onrender.com)**
 🎨 **Frontend Repository**: [github.com/ruthikph2-jpg/bugshield-frontend](https://github.com/ruthikph2-jpg/bugshield-frontend)
 
 ---
@@ -22,6 +20,8 @@ Anyone can test the live application directly in the browser:
 
 - **Multi-Model Auto-Fallback**: Automatically switches across `gemini-3.5-flash`, `gemini-3.1-flash-lite`, `gemini-3.5-flash-lite`, and `gemini-3-flash-preview` to maintain 100% availability during provider demand spikes or temporary 503 errors.
 - **Strict JSON Contract**: Enforces deterministic JSON outputs directly from the LLM for structured frontend consumption.
+- **MongoDB Integration**: Saves every analysis to MongoDB Atlas for history tracking.
+- **AI Chat**: Supports follow-up questions about bugs via `/api/chat`.
 - **CORS Enabled**: Configured for seamless communication with the Vercel-hosted client.
 - **Multi-Language Support**: Analyzes code across Python, Java, JavaScript, C++, TypeScript, Go, Rust, and more.
 
@@ -59,12 +59,20 @@ Anyone can test the live application directly in the browser:
   "fixedCode": "def divide(a, b):\n    if b == 0:\n        return \"Error: Division by zero\"\n    return a / b\n\nprint(divide(10, 0))",
   "explanation": "The function divide does not check if divisor b is zero...",
   "whatChanged": [
-    "Added an if-statement to check if b is zero before performing the division",
-    "Added a return statement to handle the error case"
+    "Added an if-statement to check if b is zero before performing the division"
   ],
   "severity": "High"
 }
 ```
+
+### 3. AI Chat
+`POST /api/chat`
+
+### 4. Fix History
+`GET /api/history`
+
+### 5. Stats
+`GET /api/stats`
 
 ---
 
@@ -85,6 +93,7 @@ Anyone can test the live application directly in the browser:
    Create a `.env` file:
    ```env
    GEMINI_API_KEY=your_api_key_here
+   MONGODB_URI=your_mongodb_uri_here
    PORT=5000
    ```
 
@@ -92,6 +101,12 @@ Anyone can test the live application directly in the browser:
    ```bash
    npm start
    ```
+
+---
+
+## 🔒 License
+
+Copyright (c) 2026 Ruthik PH. All Rights Reserved. See [LICENSE](./LICENSE) for details.
 
 ---
 
